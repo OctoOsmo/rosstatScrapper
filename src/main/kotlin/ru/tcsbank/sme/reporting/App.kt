@@ -43,18 +43,68 @@ fun main(args: Array<String>) {
                 templateMetadata.templateXmlLink = link
                 fillFromPrevious(templateMetadata, modelList, index)
             }
-        } else if (templateMetadata.rowNum == "квартальная") {
-            templateMetadata.period = templateMetadata.rowNum
-            templateMetadata.createDate = templateMetadata.workCode
+        } else if (templateMetadata.rowNum == "квартальная" || templateMetadata.rowNum == "годовая") {
+            when {
+                templateMetadata.okud == "18.01.2019 начиная с отчета за январь-март 2019 года" -> {
+                    val link = extractLinkFromRow(content[index], 1)
 
-            val link = extractLinkFromRow(content[index], 3)
+                    if (link.isNotEmpty() && link != "https://www.gks.ru/metod/XML-2019/") {
+                        templateMetadata.templateXmlLink = link
+                        fillFromPrevious(templateMetadata, modelList, index)
+                    }
+                }
+                templateMetadata.okud == "27.12.2018 Размещение для ТОГС" -> {
+                    val link = extractLinkFromRow(content[index], 1)
+
+                    if (link.isNotEmpty() && link != "https://www.gks.ru/metod/XML-2019/") {
+                        templateMetadata.templateXmlLink = link
+                        fillFromPrevious(templateMetadata, modelList, index)
+                    }
+                }
+                else -> {
+                    templateMetadata.period = templateMetadata.rowNum
+                    templateMetadata.createDate = templateMetadata.workCode
+
+                    val link = extractLinkFromRow(content[index], 3)
+
+                    if (link.isNotEmpty() && link != "https://www.gks.ru/metod/XML-2019/") {
+                        templateMetadata.templateXmlLink = link
+                        fillFromPrevious(templateMetadata, modelList, index)
+                    }
+                }
+            }
+
+        } else if (templateMetadata.rowNum == "Скачать"
+            && templateMetadata.workCode == "Скачать"
+        ) {
+            val link = extractLinkFromRow(content[index], 1)
 
             if (link.isNotEmpty() && link != "https://www.gks.ru/metod/XML-2019/") {
                 templateMetadata.templateXmlLink = link
                 fillFromPrevious(templateMetadata, modelList, index)
             }
-        }
+        } else if (templateMetadata.rowNum == "Скачать"
+            && templateMetadata.workCode == "08.08.2019 для отчёта за год На основании приказа Росстата от 19.06.2019г.№344"
+        ) {
+            val link = extractLinkFromRow(content[index], 0)
 
+            if (link.isNotEmpty() && link != "https://www.gks.ru/metod/XML-2019/") {
+                templateMetadata.templateXmlLink = link
+                fillFromPrevious(templateMetadata, modelList, index)
+            }
+        } else if (templateMetadata.rowNum == "0604010") {
+            val link = extractLinkFromRow(content[index], 6)
+
+            templateMetadata.templateXmlLink = link
+
+            templateMetadata.okud = templateMetadata.rowNum
+            templateMetadata.period = templateMetadata.workCode
+            templateMetadata.shortName = templateMetadata.okud
+            templateMetadata.name = templateMetadata.period
+
+            templateMetadata.rowNum = "157"
+            templateMetadata.workCode = "15014046"
+        }
     }
     val (validValues, invalidValues) =
         modelList.partition {
@@ -93,20 +143,21 @@ fun main(args: Array<String>) {
         println("${templateMetadata.okud} extracted")
     }
 
-    val sqlList = validValues.map {
+    val sqlQueries = validValues.map {
         "$INSERT_START'${it.parsedOkud}', '${it.code}', '${it.idp}', '${it.name}', '${it.shortName}'$INSERT_END"
-    }.toList()
+    }.toSet()
 
     val printWriter = File("reportName.sql").printWriter()
-    sqlList.forEach {
+    sqlQueries.forEach {
         ruralCrutch(it)?.apply { printWriter.println(this) }
         printWriter.println(it)
     }
     printWriter.close()
 
-    println("Invalid values")
+    if (invalidValues.isEmpty()) println("Invalid values") else println("No invalid values")
     invalidValues.forEach {
-        println(it)
+        if (it.rowNum != "19.12.2019")//empty line
+            println(it)
     }
 
     println(App().greeting)
@@ -159,7 +210,7 @@ fun fillMetadata(row: Node): TemplateMetadata {
 }
 
 private fun extractLinkFromRow(row: Node, index: Int): String {
-    val rows = row.childNodes().filterIndexed { index, node -> isUneven(index) }
+    val rows = row.childNodes().filterIndexed { ind, _ -> isUneven(ind) }
     return extractLink(index, rows)
 }
 
