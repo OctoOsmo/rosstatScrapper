@@ -114,36 +114,13 @@ fun main(args: Array<String>) {
                     it.rowNum.length < 4
         }
 
-    validValues.forEach { templateMetadata ->
-        File("archives").mkdir()
-        File("extracted").mkdir()
-        val file = File("archives/${templateMetadata.okud}.rar")
-        val index = templateMetadata.templateXmlLink.lastIndexOf("/")
-        val filename = templateMetadata.templateXmlLink.substring(index + 1)
-        val link = templateMetadata.templateXmlLink.substring(0, index + 1)
-        val url =
-            URL(link + if (filename == "18-КС_.rar" || filename == "st_18_с1_2.rar") URLEncoder.encode(filename) else filename)
-        FileUtils.copyURLToFile(url, file, 1000, 10000)
-
-        val extractDir = File("extracted/${templateMetadata.okud}").also { it.mkdir() }
-        Junrar.extract(file, extractDir)
-
-        val xmlTemplateFile = extractDir.listFiles()?.last { it.name.endsWith(".xml") }
-            ?: throw IllegalStateException("template not found")
-
-        val xmlTemplate = parse(xmlTemplateFile)
-        val attributes = xmlTemplate.documentElement.attributes
-        attributes.length
-        val map = setOf("code", "idp", "name", "OKUD").map { it to attributes.getNamedItem(it) }.toMap()
-        templateMetadata.code = map["code"]?.nodeValue ?: throw IllegalStateException("value not found")
-        templateMetadata.idp = map["idp"]?.nodeValue ?: throw IllegalStateException("value not found")
-        templateMetadata.parsedName = map["name"]?.nodeValue ?: throw IllegalStateException("value not found")
-        templateMetadata.parsedOkud = map["OKUD"]?.nodeValue ?: throw IllegalStateException("value not found")
-
-        println("${templateMetadata.okud} extracted")
+    val filledValidValues = validValues.map { templateMetadata ->
+        extractAndFillMetadata(templateMetadata)
     }
+        .flatten()
+        .filter { it.parsedOkud?.length == 7 }
 
-    val sqlQueries = validValues.map {
+    val sqlQueries = filledValidValues.map {
         "$INSERT_START'${it.parsedOkud}', '${it.code}', '${it.idp}', '${it.name}', '${it.shortName}'$INSERT_END"
     }.toSet()
 
@@ -161,6 +138,54 @@ fun main(args: Array<String>) {
     }
 
     println(App().greeting)
+}
+
+private fun extractAndFillMetadata(templateMetadata: TemplateMetadata): List<TemplateMetadata> {
+    println("extracting ${templateMetadata.okud}")
+
+    File("archives").mkdir()
+    File("extracted").mkdir()
+    val index = templateMetadata.templateXmlLink.lastIndexOf("/")
+    val filename = templateMetadata.templateXmlLink.substring(index + 1)
+
+    val file = File("archives/${templateMetadata.okud}_${filename}.rar")
+    val link = templateMetadata.templateXmlLink.substring(0, index + 1)
+    val url =
+        URL(link + if (filename == "18-КС_.rar" || filename == "st_18_с1_2.rar") URLEncoder.encode(filename) else filename)
+    FileUtils.copyURLToFile(url, file, 1000, 10000)
+
+    val extractDir = File("extracted/${templateMetadata.okud}_${filename}").also { it.mkdir() }
+    Junrar.extract(file, extractDir)
+
+//    val xmlFilesCount = extractDir.listFiles()?.filter { it.name.endsWith(".xml") }?.size ?: 0
+//    if (xmlFilesCount > 1)
+//        println("WARNING ${templateMetadata.okud} have $xmlFilesCount xml files")
+
+    return extractDir.listFiles()?.filter { it.name.endsWith(".xml") }
+        ?.map {
+            fillTemplateMetadataFromTemplate(it, templateMetadata)
+        }?.toList()
+        ?: throw IllegalStateException("template not found")
+
+//    val filledMetadata = fillTemplateMetadataFromTemplate(xmlTemplateFile, templateMetadata)
+//    return listOf(filledMetadata)
+}
+
+private fun fillTemplateMetadataFromTemplate(
+    xmlTemplateFile: File,
+    templateMetadata: TemplateMetadata
+): TemplateMetadata {
+    val xmlTemplate = parse(xmlTemplateFile)
+    val attributes = xmlTemplate.documentElement.attributes
+    attributes.length
+    val map = setOf("code", "idp", "name", "OKUD").map { it to attributes.getNamedItem(it) }.toMap()
+
+    val filledMetadata = templateMetadata.copy()
+    filledMetadata.code = map["code"]?.nodeValue ?: throw IllegalStateException("value not found")
+    filledMetadata.idp = map["idp"]?.nodeValue ?: throw IllegalStateException("value not found")
+    filledMetadata.parsedName = map["name"]?.nodeValue ?: throw IllegalStateException("value not found")
+    filledMetadata.parsedOkud = map["OKUD"]?.nodeValue ?: throw IllegalStateException("value not found")
+    return filledMetadata
 }
 
 private fun ruralCrutch(it: String): String? =

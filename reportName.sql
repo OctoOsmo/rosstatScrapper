@@ -52,6 +52,7 @@ insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0610086', '610086002001', '1', 'Сведения о производстве КОХ и ФСФ – химикатов, подлежащих объявлению и контролю по Конвенции', '1-ХО');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0609007', '609007002001', '01', 'Сведения о лесовосстановлении и лесоразведении на территориях, подвергшихся радиоактивному загрязнению', '1-РЛХ (Чернобыль)');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0607017', '607017001001', '1', 'Сведения о продаже (отгрузке) продукции (товаров) по месту нахождения покупателей (грузополучателей)', '1-вывоз');
+insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0607017', '607017001004', '4', 'Сведения о продаже (отгрузке) продукции (товаров) по месту нахождения покупателей (грузополучателей)', '1-вывоз');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0610095', '610095001001', '1', 'Сведения о производстве тепловой и электрической энергии объектами генерации (электростанциями)', '6-ТП');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0610096', '610096002001', '1', 'Сведения о работе гидроэлектростации', '6-ТП (гидро)');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0613034', '613034002001', '1', 'Сведения об экспорте (импорте) услуг во внешнеэкономической деятельности', '8-ВЭС(услуги)');
@@ -66,6 +67,7 @@ insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0616020', '616020017012', '12', 'Сведения о тарифах на перевозку тонны грузов организациями внутреннего водного транспорта', '1-ТАРИФ (внутр. вод.)');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0612001', '612001001004', '4', 'Обследование деловой активности строительной организации', 'ДАС');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0615055', '615055001012', '12', 'Сведения о работе автобусов по маршрутам регулярных перевозок', '1-автотранс');
+insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0612008', '612008002012', '12', 'Сведения о вводе в эксплуатацию зданий и сооружений', 'С-1');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0612008', '612008003001', '1', 'Сведения о вводе в эксплуатацию зданий и сооружений', 'С-1');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0601010', '601010003001', '01', 'Сведения о муниципальных образованиях', '1- администрация');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0612010', '612010004012', '12', 'Сведения о выданных разрешениях на строительство и разрешениях на ввод объектов в эксплуатацию', '1-разрешение');
@@ -82,7 +84,10 @@ insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0603012', '603012003004', '12', 'Журнал домохозяйства', '1-Б');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0603015', '603015001004', '12', 'Опросный лист для обследования бюджетов домашних хозяйств', '1-В');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0601011', '601011001001', '1', 'Сведения о технологических инновациях малого предприятия', '2-МП инновация');
+insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0611006', '611006005012', '12', 'Сведения о производстве продукции животноводства и поголовье скота', '3-фермер');
+insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0611006', '611006004001', '1', 'Сведения о производстве продукции животноводства и поголовье скота', '3-фермер');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0611006', '611006003001', '1', 'Сведения о производстве продукции животноводства и поголовье скота', '3-фермер');
+insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('6110020', '6110020002002', '2', 'Сведения о сборе урожая сельскохзяйственных культур', '2-фермер');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('6110020', '6110020002002', '2', 'Сведения о сборе урожая сельскохзяйственных культур', '2-фермер');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('6110021', '6110021002001', '1', 'Сведения о сборе урожая сельскохзяйственных культур', '2-фермер');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0611005', '611005001001', '1', 'Сведения о переработке картофеля, овощей и плодово-ягодной продукции', '5-СБ');
@@ -101,13 +106,16 @@ insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0607080', '607080002001', '01', 'Сведения об образовании и использовании лома черных и цветных металлов', '14-МЕТ (лом)');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0609302', '609302002001', '1', 'Сведения об организации, оказывающей услуги по медицинской помощи', '1-здрав');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0612003', '612003002012', '12', 'Сведения о построенных населением жилых домах', 'ИЖС');
+insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0612003', '612003002001', '1', 'Сведения о построенных населением жилых домах', 'ИЖС');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0606004', '606004001001', '01', 'Сведения о состоянии условий труда и компенсациях на работах с вредными и (или) опасными условиями труда', '1-Т (условия труда)');
+insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0606027', '606027001001', '1', 'Сведения о численности и оплате труда работников государственных органов и органов местного самоуправления по категориям персонала', '1-Т (ГМС)');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0606027', '606027003001', '1', 'Сведения о численности и оплате труда работников государственных органов и органов местного самоуправления по категориям персонала', '1-Т (ГМС)');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0610036', '610036001001', '1', 'Сведения о производстве, передаче, распределении и потреблении электрической энергии', '23-Н');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0616012', '616012003012', '12', 'Сведения о ценах производителей сельскохозяйственной продукции', '1-СХ-цены');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0610001', '610001002012', '12', 'Сведения о производстве продукции индивидуальным предпринимателем', '1-ИП (мес)');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0606013', '606013001012', '12', 'Сведения о просроченной задолженности по заработной плате', '3-Ф');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0617008', '617008001001', '01', 'Сведения об инвестициях в основной капитал, направленных на охрану окружающей среды и рациональное использование природных ресурсов', '18-КС');
+insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0609707', '609707002004', '4', 'Сведения об объеме платных услуг населению по видам', 'П (услуги)');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0609707', '609707001012', '12', 'Сведения об объеме платных услуг населению по видам', 'П (услуги)');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0610010', '610010001012', '12', 'Сведения о производстве продукции малым предприятием', 'ПМ-пром');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0610054', '610054003012', '12', 'Сведения о производстве военной (оборонной) продукции', 'Приложение № 2 к форме № П-1');
@@ -115,10 +123,12 @@ insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0610068', '610068002001', '1', 'Сведения об использовании топливно-энергетических ресурсов', '4-ТЭР');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0607065', '607065002001', '01', 'Сведения о деятельности снабженческо-сбытовых сельскохозяйственных потребительских кооперативов', '2- кооператив');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0616007', '616007001012', '12', 'Сведения о ценах производителей промышленных товаров (услуг)', '1-цены производителей');
+insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0616007', '616007003001', '1', 'Сведения о ценах производителей промышленных товаров (услуг)', '1-цены производителей');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0616004', '616004001012', '12', 'Сведения о ценах на приобретенные основные строительные материалы, детали и конструкции', '9-КС');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0610013', '610013005012', '12', 'Сведения о производстве и отгрузке товаров и услуг', 'П-1');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0610016', '610016006004', '04', 'Основные сведения о деятельности организации', 'П-5(м)');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0608035', '608035005001', '01', 'Обследование деловой активности организации, осуществляющей деятельность в сфере финансового лизинга', 'ДАФЛ');
+insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0606014', '606014001001', '1', 'Сведения о дополнительном профессиональном образовании федеральных государственных гражданских служащих и государственных гражданских служащих субъектов Российской Федерации', '2-ГС (ГЗ)');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0606014', '606014003001', '1', 'Сведения о дополнительном профессиональном образовании федеральных государственных гражданских служащих и государственных гражданских служащих субъектов Российской Федерации', '2-ГС (ГЗ)');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0606018', '606018002001', '1', 'Сведения о дополнительном профессиональном образовании муниципальных служащих', '2-МС');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0610035', '610035002001', '1', 'Сведения о производстве, отгрузке продукции и балансе производственных мощностей', '1-натура-БМ');
@@ -135,6 +145,7 @@ insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0609500', '609500001001', '1', 'Сведения о дополнительном образовании детей', '1-ДОП');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0601018', '601018003001', '1', 'Сведения о деятельности индивидуального предпринимателя', '1-ИП');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0606002', '606002007001', '1', 'Сведения о численности и заработной плате работников', '1-Т');
+insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0603023', '603023003002', '2', 'Сведения о средствах на реализацию мер социальной поддержки отдельных категорий граждан по расходным обязательствам субъекта Российской Федерации и муниципальных образований', '2-соцподдержка');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0603023', '603023001002', '2', 'Сведения о средствах на реализацию мер социальной поддержки отдельных категорий граждан по расходным обязательствам субъекта Российской Федерации и муниципальных образований', '2-соцподдержка');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0610017', '610017002004', '4', 'Обследование деловой активности малых предприятий добывающих, обрабатывающих производств, осуществляющих обеспечение электрической энергией, газом и паром, кондиционирование воздуха', 'ДАП-ПМ');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0616021', '616021002012', '12', 'Сведения о средних ценах на приобретенное промышленными организациями зерно для основного производства', '2-цены приобретения (зерно)');
@@ -146,6 +157,7 @@ insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0616001', '616001006001', '1', 'Сведения о ценах (тарифах) на промышленные товары и услуги, приобретенные сельскохозяйственными организациями', '1-цены приобретения');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0605101', '605101001001', '1', 'Сведения об административных правонарушениях в сфере экономики', '1-АЭ');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0616008', '616008002012', '12', 'Сведения о ценах приобретения отдельных видов товаров', '2-цены приобретения');
+insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0606010', '606010005012', '12', 'Сведения о численности и заработной плате работников', 'П-4');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0606010', '606010007004', '04', 'Сведения о численности и заработной плате работников', 'П-4');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0609706', '609706002001', '1', 'Сведения о деятельности туристской фирмы', '1-турфирма');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0602001', '602001002001', '1', 'Сведения о наличии и движении основных фондов (средств) и других нефинансовых активов', '11');
@@ -169,6 +181,7 @@ insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0606049', '606049001004', '04', 'Сведения о численности и оплате труда работников сферы социального обслуживания по категориям персонала', 'ЗП-соц');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0609255', '609255001004', '04', 'Сведения о предоставлении гражданам социальной поддержки по оплате жилого помещения и коммунальных услуг', '26-ЖКХ');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0612009', '612009009012', '12', 'Сведения о ходе строительства строек и объектов, включенных в Федеральную адресную инвестиционную программу', 'С-2');
+insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0612009', '612009008001', '1', 'Сведения о ходе строительства строек и объектов, включенных в Федеральную адресную инвестиционную программу', 'С-2');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0617004', '617004003004', '04', 'Сведения об инвестициях в нефинансовые активы', 'П-2');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0609226', '609226002004', '4', 'Сведения о работе организаций, оказывающих услуги в сфере жилищно-коммунального хозяйства, в условиях реформы', '22-ЖКХ (жилище)');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0601013', '601013005004', '4', 'Сведения об основных показателях деятельности малого предприятия', 'ПМ');
@@ -190,5 +203,6 @@ insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0606007', '606007006001', '1', 'Сведения о заработной плате работников по профессиям и должностям', '57-Т');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0609304', '609304002001', '1', 'Сведения о травматизме на производстве и профессиональных заболеваниях', '7-травматизм');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0608028', '608028015001', '1', 'Сведения о деятельности социально ориентированной некоммерческой организации', '1-СОНКО');
+insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0606017', '606017007001', '1', 'Сведения о составе работников, замещавших государственные должности и должности государственной гражданской службы, по полу, возрасту, стажу государственной службы, образованию', '1-ГС');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0606017', '606017006001', '1', 'Сведения о составе работников, замещавших государственные должности и должности государственной гражданской службы, по полу, возрасту, стажу государственной службы, образованию', '1-ГС');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0606016', '606016008001', '1', 'Сведения о составе работников, замещавших муниципальные должности и должности муниципальной службы, по полу, возрасту, стажу муниципальной службы, образованию', '1-МС');
