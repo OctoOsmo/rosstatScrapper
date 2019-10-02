@@ -8,12 +8,10 @@ import org.apache.commons.io.FileUtils
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Node
 import org.w3c.dom.Document
-import org.w3c.dom.Element
 import java.io.File
 import java.net.URL
 import java.net.URLEncoder
 import javax.xml.parsers.DocumentBuilderFactory
-
 
 class App {
     val greeting: String
@@ -36,8 +34,35 @@ fun main(args: Array<String>) {
         .filterIndexed { index, value -> index < 204 }
 
     val modelList = content.map { row -> fillMetadata(row) }
+    modelList.forEachIndexed { index, templateMetadata ->
+        if ("\\d\\d.\\d\\d.\\d\\d\\d\\d".toRegex().matches(templateMetadata.rowNum)) {
+            templateMetadata.createDate = templateMetadata.rowNum
+            val link = extractLinkFromRow(content[index], 2)
+
+            if (link.isNotEmpty() && link != "https://www.gks.ru/metod/XML-2019/") {
+                templateMetadata.templateXmlLink = link
+                fillFromPrevious(templateMetadata, modelList, index)
+            }
+        } else if (templateMetadata.rowNum == "квартальная") {
+            templateMetadata.period = templateMetadata.rowNum
+            templateMetadata.createDate = templateMetadata.workCode
+
+            val link = extractLinkFromRow(content[index], 3)
+
+            if (link.isNotEmpty() && link != "https://www.gks.ru/metod/XML-2019/") {
+                templateMetadata.templateXmlLink = link
+                fillFromPrevious(templateMetadata, modelList, index)
+            }
+        }
+
+    }
     val (validValues, invalidValues) =
-        modelList.partition { it.workCode.length == 8 && it.okud.length == 7 }
+        modelList.partition {
+            //            it.workCode.length == 8
+//            it.okud != "0612008" &&
+            it.okud.length == 7 &&
+                    it.rowNum.length < 4
+        }
 
     validValues.forEach { templateMetadata ->
         File("archives").mkdir()
@@ -46,36 +71,65 @@ fun main(args: Array<String>) {
         val index = templateMetadata.templateXmlLink.lastIndexOf("/")
         val filename = templateMetadata.templateXmlLink.substring(index + 1)
         val link = templateMetadata.templateXmlLink.substring(0, index + 1)
-        val url = URL(link + if (filename == "18-КС_.rar") URLEncoder.encode(filename) else filename)
+        val url =
+            URL(link + if (filename == "18-КС_.rar" || filename == "st_18_с1_2.rar") URLEncoder.encode(filename) else filename)
         FileUtils.copyURLToFile(url, file, 1000, 10000)
 
         val extractDir = File("extracted/${templateMetadata.okud}").also { it.mkdir() }
         Junrar.extract(file, extractDir)
 
-        val xmlTemplateFile = extractDir.listFiles()?.first { it.name.endsWith(".xml") }
+        val xmlTemplateFile = extractDir.listFiles()?.last { it.name.endsWith(".xml") }
             ?: throw IllegalStateException("template not found")
 
         val xmlTemplate = parse(xmlTemplateFile)
         val attributes = xmlTemplate.documentElement.attributes
         attributes.length
         val map = setOf("code", "idp", "name", "OKUD").map { it to attributes.getNamedItem(it) }.toMap()
-        templateMetadata.code = map["code"]?.nodeValue?: throw IllegalStateException("value not found")
-        templateMetadata.idp = map["idp"]?.nodeValue?: throw IllegalStateException("value not found")
-        templateMetadata.parsedName = map["name"]?.nodeValue?: throw IllegalStateException("value not found")
-        templateMetadata.parsedOkud = map["OKUD"]?.nodeValue?: throw IllegalStateException("value not found")
+        templateMetadata.code = map["code"]?.nodeValue ?: throw IllegalStateException("value not found")
+        templateMetadata.idp = map["idp"]?.nodeValue ?: throw IllegalStateException("value not found")
+        templateMetadata.parsedName = map["name"]?.nodeValue ?: throw IllegalStateException("value not found")
+        templateMetadata.parsedOkud = map["OKUD"]?.nodeValue ?: throw IllegalStateException("value not found")
 
         println("${templateMetadata.okud} extracted")
     }
 
     val sqlList = validValues.map {
-        "$INSERT_START'${it.okud}', '${it.code}', '${it.idp}', '${it.name}', '${it.shortName}'$INSERT_END"
+        "$INSERT_START'${it.parsedOkud}', '${it.code}', '${it.idp}', '${it.name}', '${it.shortName}'$INSERT_END"
     }.toList()
 
     val printWriter = File("reportName.sql").printWriter()
-    sqlList.forEach { printWriter.println(it) }
+    sqlList.forEach {
+        ruralCrutch(it)?.apply { printWriter.println(this) }
+        printWriter.println(it)
+    }
     printWriter.close()
 
+    println("Invalid values")
+    invalidValues.forEach {
+        println(it)
+    }
+
     println(App().greeting)
+}
+
+private fun ruralCrutch(it: String): String? =
+    if (it == "insert into sa_rosstat_report_name(okud, code, idp, name, short_name) " +
+        "values ('6110021', '6110021002001', '1', 'Сведения о сборе урожая сельскохзяйственных культур', '2-фермер');"
+    ) {
+        "insert into sa_rosstat_report_name(okud, code, idp, name, short_name) " +
+                "values ('6110020', '6110020002002', '2', 'Сведения о сборе урожая сельскохзяйственных культур', '2-фермер');"
+    } else null
+
+private fun fillFromPrevious(
+    templateMetadata: TemplateMetadata,
+    modelList: List<TemplateMetadata>,
+    index: Int
+) {
+    templateMetadata.rowNum = (modelList[index - 1].rowNum.toInt() + 1).toString()
+    templateMetadata.workCode = modelList[index - 1].workCode
+    templateMetadata.okud = modelList[index - 1].okud
+    templateMetadata.name = modelList[index - 1].name
+    templateMetadata.shortName = modelList[index - 1].shortName
 }
 
 fun parse(file: File): Document {
@@ -86,7 +140,6 @@ fun parse(file: File): Document {
 
 fun fillMetadata(row: Node): TemplateMetadata {
     val rows = row.childNodes().filterIndexed { index, node -> isUneven(index) }
-//    (rows[5] as org.jsoup.nodes.Element).text()
     return TemplateMetadata(
         rowNum = extractVal(0, rows),
         workCode = extractVal(1, rows),
@@ -103,6 +156,11 @@ fun fillMetadata(row: Node): TemplateMetadata {
         parsedName = null,
         parsedOkud = null
     )
+}
+
+private fun extractLinkFromRow(row: Node, index: Int): String {
+    val rows = row.childNodes().filterIndexed { index, node -> isUneven(index) }
+    return extractLink(index, rows)
 }
 
 private fun isUneven(index: Int) = index % 2 == 1
