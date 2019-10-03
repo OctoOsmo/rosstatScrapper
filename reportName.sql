@@ -88,7 +88,6 @@ insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0611006', '611006004001', '1', 'Сведения о производстве продукции животноводства и поголовье скота', '3-фермер');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0611006', '611006003001', '1', 'Сведения о производстве продукции животноводства и поголовье скота', '3-фермер');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('6110020', '6110020002002', '2', 'Сведения о сборе урожая сельскохзяйственных культур', '2-фермер');
-insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('6110020', '6110020002002', '2', 'Сведения о сборе урожая сельскохзяйственных культур', '2-фермер');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('6110021', '6110021002001', '1', 'Сведения о сборе урожая сельскохзяйственных культур', '2-фермер');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0611005', '611005001001', '1', 'Сведения о переработке картофеля, овощей и плодово-ягодной продукции', '5-СБ');
 insert into sa_rosstat_report_name(okud, code, idp, name, short_name) values ('0609506', '609506001001', '1', 'Сведения о деятельности организации, осуществляющей образовательную деятельность по образовательным программам дошкольного образования, присмотр и уход за детьми', '85-К');
